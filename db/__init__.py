@@ -25,3 +25,5 @@ def create_tables():
     conn.commit()
 
 import db.houses as houses
+import db.booking as booking
+import db.admins as admins

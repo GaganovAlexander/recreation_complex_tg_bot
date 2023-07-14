@@ -1,4 +1,4 @@
-from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.utils.keyboard import InlineKeyboardBuilder, ReplyKeyboardBuilder
 from aiogram.filters.callback_data import CallbackData
 
 import db
@@ -37,15 +37,20 @@ def common_info():
     keyboard.adjust(1, 2, 1, 1)
     return keyboard.as_markup()
 
-def house(id: int, event: str = 'price'):
+def house(id: int, event: str = 'description'):
     keyboard = InlineKeyboardBuilder()
 
-    if event == 'price':
-        text = 'Цена'
-    else:
-        text = 'Описание'
+    if event == 'description':
+        keyboard.button(text='Цена', callback_data=HouseData(id=id, event='price'))
+        keyboard.button(text='Свободные дни', callback_data=HouseData(id=id, event='booking'))
+    elif event == 'price':
+        keyboard.button(text='Описание', callback_data=HouseData(id=id, event='description'))
+        keyboard.button(text='Свободные дни', callback_data=HouseData(id=id, event='booking'))
+    elif event == 'booking':
+        keyboard.button(text='Описание', callback_data=HouseData(id=id, event='description'))
+        keyboard.button(text='Цена', callback_data=HouseData(id=id, event='price'))
 
-    keyboard.button(text=text, callback_data=HouseData(id=id, event=event))
+    
     keyboard.button(text='Назад', callback_data=CommonData(event='back'))
     keyboard.adjust(1, repeat=True)
     return keyboard.as_markup()
@@ -53,4 +58,11 @@ def house(id: int, event: str = 'price'):
 def info_back():
     keyboard = InlineKeyboardBuilder()
     keyboard.button(text='Назад', callback_data=CommonData(event='info'))
+    return keyboard.as_markup()
+
+def admin_keyboard():
+    keyboard = ReplyKeyboardBuilder()
+    keyboard.button(text='Добавить забронированный день')
+    keyboard.button(text='Убрать бронь')
+    keyboard.adjust(1, 1)
     return keyboard.as_markup()
