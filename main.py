@@ -9,7 +9,7 @@ from db import create_tables
 from create_bot import bot, dp
 
 async def on_startup():
-    await bot.delete_webhook(drop_pending_updates=True)
+    await bot.set_webhook(f'{STANDART_URL}/bot/dobriy', drop_pending_updates=True)
     create_tables()
     await setup_commands(bot)
     print('Бот запущен')

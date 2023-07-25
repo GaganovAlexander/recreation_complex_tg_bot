@@ -1,5 +1,3 @@
-from asyncio import run as arun
-
 from main import main
 
 
