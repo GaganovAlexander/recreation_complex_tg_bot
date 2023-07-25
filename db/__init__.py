@@ -11,7 +11,8 @@ def create_tables():
     houses (
     id SMALLSERIAL PRIMARY KEY,
     name VARCHAR(63) NOT NULL,
-    description VARCHAR(511) NOT NULL
+    description VARCHAR(511) NOT NULL,
+    price VARCHAR(127)
     );
     CREATE TABLE IF NOT EXISTS
     booking (
@@ -20,6 +21,11 @@ def create_tables():
         CONSTRAINT fk_houses
             FOREIGN KEY (house_id)
             REFERENCES houses(id)
+    )
+    CREATE TABLE admins (
+        tg_id INTEGER PRIMARY KEY,
+        username VARCHAR(255),
+        becoming_date DATE
     )
     ''')
     conn.commit()
