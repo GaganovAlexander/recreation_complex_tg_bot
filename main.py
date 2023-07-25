@@ -2,16 +2,11 @@ from aiohttp.web import run_app
 from aiohttp.web_app import Application
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 
-from aiogram import Bot, Dispatcher
-
-from configs import BOT_TOKEN, STANDART_URL
+from configs import STANDART_URL
 
 from handlers import register_handlers, setup_commands
 from db import create_tables
-
-
-bot = Bot(BOT_TOKEN, parse_mode='Markdown')
-dp = Dispatcher()
+from create_bot import bot, dp
 
 async def on_startup():
     await bot.delete_webhook(drop_pending_updates=True)
@@ -40,3 +35,6 @@ def main():
     setup_application(app, dp, bot=bot)
 
     run_app(app, host="127.0.0.1", port=8003)
+
+if __name__ == "__main__":
+    main()
