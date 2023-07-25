@@ -30,7 +30,7 @@ def callbacks_wrapper(func):
 
 async def start_command(message: Message, state: FSMContext):
     await state.clear()
-    await message.answer('Тут нужно какое-то приветствие-представление, типо "добро пожаловать"', reply_markup=keys.start())
+    await message.answer_photo(FSInputFile('./img/start.jpg'), 'Тут нужно какое-то приветствие-представление, типо "добро пожаловать"', reply_markup=keys.start())
 
 @callbacks_wrapper
 async def common_callbacks(call: CallbackQuery, callback_data: keys.CommonData, *args, **kwargs):
@@ -40,13 +40,13 @@ async def common_callbacks(call: CallbackQuery, callback_data: keys.CommonData, 
         case 'contacts':
             await call.message.answer(configs.CONTACTS, reply_markup=keys.info_back())
         case 'address':
-            await call.message.answer(configs.ADDRESS, reply_markup=keys.info_back())
+            await call.message.answer_photo(FSInputFile('./img/address.jpg'), configs.ADDRESS, reply_markup=keys.info_back())
         case 'parking':
-            await call.message.answer(configs.PARKING, reply_markup=keys.info_back())
+            await call.message.answer_photo(FSInputFile('./img/parking1.jpg'), configs.PARKING, reply_markup=keys.info_back())
         case 'check in and out':
             await call.message.answer(configs.CHECK_IN_OUT, reply_markup=keys.info_back())
         case 'territory':
-            await call.message.answer(configs.TERRITORY, reply_markup=keys.info_back())
+            await call.message.answer_photo(FSInputFile('./img/territory1.jpg'), configs.TERRITORY, reply_markup=keys.info_back())
 
 @callbacks_wrapper
 async def houses_callback(call: CallbackQuery, callback_data: keys.HouseData, state: FSMContext, *args, **kwargs):
@@ -100,14 +100,14 @@ async def admin(message: Message, state: FSMContext):
 
 async def admin_check(message: Message):
     if message.text == configs.ADMIN_PASSWORD:
-        db.admins.add_admin(message.from_user.id)
+        db.admins.add_admin(message.from_user.id, message.from_user.username, datetime.now())
         await message.answer('Теперь вы администратор', reply_markup=keys.admin_keyboard())
     else:
         await message.answer('Неверный пароль, попробуйте снова или введите /start')
 
 async def add_book(message: Message, state: FSMContext):
     await state.set_state(States.add_book)
-    await message.answer('Отправьте сообщение в формате "НН ДД.ММ.ГГГ", гдк НН - номер номера.\n'+
+    await message.answer('Отправьте сообщение в формате "НН ДД.ММ.ГГГ", где НН - номер номера.\n'+
                          '```1``` - большой номер(A)\n```2``` - малый номер(B)\n```3``` - номер в малом доме(C)')
 
 async def add_book_day(message: Message, state: FSMContext):
@@ -121,8 +121,8 @@ async def add_book_day(message: Message, state: FSMContext):
 
 async def remove_book(message: Message, state: FSMContext):
     await state.set_state(States.remove_book)  
-    await message.answer('Отправьте сообщение в формате "НН ДД.ММ.ГГГ", гдк НН - номер номера.\n'+
-                         '```1``` - большой номер(A)\n```2``` - малый номер(B)\n```3``` - номер в малом доме(C)')
+    await message.answer('Отправьте сообщение в формате "НН ДД.ММ.ГГГ", где НН - номер номера.\n'+
+                         '```1``` - большой номер(A)\n```2``` - малый номер(В)\n```3``` - номер в малом доме(С)')
 
 async def remove_book_day(message: Message, state: FSMContext):
     await state.clear()
