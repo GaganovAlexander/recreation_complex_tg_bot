@@ -21,8 +21,9 @@ def create_tables():
         CONSTRAINT fk_houses
             FOREIGN KEY (house_id)
             REFERENCES houses(id)
-    )
-    CREATE TABLE admins (
+    );
+    CREATE TABLE IF NOT EXISTS 
+    admins (
         tg_id INTEGER PRIMARY KEY,
         username VARCHAR(255),
         becoming_date DATE
