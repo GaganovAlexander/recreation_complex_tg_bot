@@ -4,7 +4,7 @@ from db import cur
 
 
 def get_all_ids_names():
-    cur.execute('SELECT id, name FROM houses')
+    cur.execute('SELECT id, name FROM houses ORDER BY id')
     return cur.fetchall()
 
 def get_by_id(id: int):
