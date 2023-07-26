@@ -31,7 +31,7 @@ def common_info():
     keyboard.button(text='Адрес', callback_data=CommonData(event='address'))
     keyboard.button(text='Парковка', callback_data=CommonData(event='parking'))                    
     keyboard.button(text='Заезд и выезд', callback_data=CommonData(event='check in and out'))
-    keyboard.button(text='Територия', callback_data=CommonData(event='territory'))
+    keyboard.button(text='Территория', callback_data=CommonData(event='territory'))
     keyboard.button(text='Назад', callback_data=CommonData(event='back'))
 
     keyboard.adjust(1, 2, 1, 1)

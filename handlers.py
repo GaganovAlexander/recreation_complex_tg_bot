@@ -30,7 +30,8 @@ def callbacks_wrapper(func):
 
 async def start_command(message: Message, state: FSMContext):
     await state.clear()
-    await message.answer_photo(FSInputFile('./img/start.jpg'), 'Тут нужно какое-то приветствие-представление, типо "добро пожаловать"', reply_markup=keys.start())
+    await message.answer_photo(FSInputFile('./img/start.jpg'), 'Здравствуйте! Вас приветствует информационый помошник комплекса "Добрый".'+
+                               'Здесь вы можете узнать общую информацию о загородном комплексе и его номерах', reply_markup=keys.start())
 
 @callbacks_wrapper
 async def common_callbacks(call: CallbackQuery, callback_data: keys.CommonData, *args, **kwargs):
@@ -64,7 +65,7 @@ async def houses_callback(call: CallbackQuery, callback_data: keys.HouseData, st
         data['booking'] = 'Ближайшие 5 свободных дней:\n'
         for day in free_days:
             data['booking'] += f"\t{day.strftime('%d.%m.%Y')}\n"
-        data['booking'] += 'Если хотите узнать соводна ли какая-то дата кроме этих, введите её в формате ДД.ММ.ГГГГ'
+        data['booking'] += 'Если хотите узнать свободна ли какая-то дата кроме этих, введите её в формате ДД.ММ.ГГГГ'
         await state.set_state(States.check_day)
 
     message = await call.message.answer_photo(FSInputFile(f'./img/{callback_data.id}.jpg'), data.get(callback_data.event),
