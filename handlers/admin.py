@@ -64,10 +64,12 @@ async def remove_book(message: Message, state: FSMContext):
     )
 
 async def remove_book_day(message: Message, state: FSMContext):
+    data = await state.get_data()
+    await message.delete()
+    await data['message'].delete()
     house_id = int(message.text[0])
     day = datetime(*reversed(tuple(map(int, message.text[2:].split('.')))))
     db.booking.remove_book(house_id, day)
-    await message.delete()
     await message.answer(f'Успешно убрана бронь с {message.text[2:]} числа для {names[house_id-1]}')
     await state.clear()
 
