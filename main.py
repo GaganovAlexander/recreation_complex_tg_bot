@@ -4,14 +4,14 @@ from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_applicati
 
 from configs import STANDART_URL
 
-from handlers import register_handlers, setup_commands
+import handlers
 from db import create_tables
 from create_bot import bot, dp
 
 async def on_startup():
     await bot.set_webhook(f'{STANDART_URL}/bot/dobriy', drop_pending_updates=True)
     create_tables()
-    await setup_commands(bot)
+    await handlers.setup_commands(bot)
     print('Бот запущен')
 
 async def on_shutdown():
@@ -23,7 +23,7 @@ def main():
 
     dp['base_url'] = STANDART_URL
 
-    register_handlers(dp)
+    handlers.register(dp)
 
     app = Application()
     app["bot"] = bot
