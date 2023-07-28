@@ -37,6 +37,7 @@ async def admin_check_password(message: Message):
 
 async def add_book(message: Message, state: FSMContext):
     await state.set_state(States.add_book)
+    await message.delete()
     await state.update_data(message=
         await message.answer('Отправьте сообщение в формате "НН ДД.ММ.ГГГ", где НН - номер номера.\n'+
                             '```1``` - большой номер(A)\n```2``` - малый номер(B)\n```3``` - номер в малом доме(C)')
@@ -55,9 +56,12 @@ async def add_book_day(message: Message, state: FSMContext):
     await state.clear()
 
 async def remove_book(message: Message, state: FSMContext):
-    await state.set_state(States.remove_book)  
+    await state.set_state(States.remove_book)
+    await message.delete()
+    await state.update_data(message=
     await message.answer('Отправьте сообщение в формате "НН ДД.ММ.ГГГ", где НН - номер номера.\n'+
                          '```1``` - большой номер(A)\n```2``` - малый номер(В)\n```3``` - номер в малом доме(С)')
+    )
 
 async def remove_book_day(message: Message, state: FSMContext):
     house_id = int(message.text[0])
