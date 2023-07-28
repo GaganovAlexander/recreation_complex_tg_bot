@@ -46,7 +46,7 @@ async def add_book_day(message: Message, state: FSMContext):
     data = await state.get_data()
     await message.delete()
     await data['message'].delete()
-    house_id = message.text[0]
+    house_id = int(message.text[0])
     day = datetime(*reversed(tuple(map(int, message.text[2:].split('.')))))
     if db.booking.add_book(house_id, day):
         await message.answer(f'Успешно забронированно {message.text[2:]} число для {names[house_id-1]}')
