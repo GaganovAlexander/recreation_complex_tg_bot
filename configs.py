@@ -5,6 +5,7 @@ from dotenv import find_dotenv, load_dotenv
 
 load_dotenv(find_dotenv())
 
+HOME_DIRECTORY = environ.get('HOME_DIRECTORY')
 DB_USER = environ.get('DB_USER')
 DB_NAME = environ.get('DB_NAME')
 DB_PASSWORD = environ.get('DB_PASSWORD')

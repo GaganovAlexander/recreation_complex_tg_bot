@@ -9,6 +9,7 @@ import keys
 import db
 import configs
 from handlers import callbacks_wrapper
+from configs import HOME_DIRECTORY
 
 
 class States(StatesGroup):
@@ -17,7 +18,7 @@ class States(StatesGroup):
 
 async def start_command(message: Message, state: FSMContext):
     await state.clear()
-    await message.answer_photo(FSInputFile('./img/start.jpg'), 'Здравствуйте! Вас приветствует информационый помошник комплекса "Добрый".'+
+    await message.answer_photo(FSInputFile(f'{HOME_DIRECTORY}/img/start.jpg'), 'Здравствуйте! Вас приветствует информационый помошник комплекса "Добрый".'+
                                'Здесь вы можете узнать общую информацию о загородном комплексе и его номерах', reply_markup=keys.start())
 
 @callbacks_wrapper
@@ -28,13 +29,13 @@ async def common_callbacks(call: CallbackQuery, callback_data: keys.CommonData, 
         case 'contacts':
             await call.message.answer(configs.CONTACTS, reply_markup=keys.info_back())
         case 'address':
-            await call.message.answer_photo(FSInputFile('./img/address.jpg'), configs.ADDRESS, reply_markup=keys.info_back())
+            await call.message.answer_photo(FSInputFile(f'{HOME_DIRECTORY}/img/address.jpg'), configs.ADDRESS, reply_markup=keys.info_back())
         case 'parking':
-            await call.message.answer_photo(FSInputFile('./img/parking1.jpg'), configs.PARKING, reply_markup=keys.info_back())
+            await call.message.answer_photo(FSInputFile(f'{HOME_DIRECTORY}/img/parking1.jpg'), configs.PARKING, reply_markup=keys.info_back())
         case 'check in and out':
             await call.message.answer(configs.CHECK_IN_OUT, reply_markup=keys.info_back())
         case 'territory':
-            await call.message.answer_photo(FSInputFile('./img/territory1.jpg'), configs.TERRITORY, reply_markup=keys.info_back())
+            await call.message.answer_photo(FSInputFile(f'{HOME_DIRECTORY}/img/territory1.jpg'), configs.TERRITORY, reply_markup=keys.info_back())
 
 @callbacks_wrapper
 async def houses_callback(call: CallbackQuery, callback_data: keys.HouseData, state: FSMContext, *args, **kwargs):
@@ -55,7 +56,7 @@ async def houses_callback(call: CallbackQuery, callback_data: keys.HouseData, st
         data['booking'] += 'Если хотите узнать свободна ли какая-то дата кроме этих, введите её в формате ДД.ММ.ГГГГ'
         await state.set_state(States.check_day)
 
-    message = await call.message.answer_photo(FSInputFile(f'./img/{callback_data.id}.jpg'), data.get(callback_data.event),
+    message = await call.message.answer_photo(FSInputFile(f'{HOME_DIRECTORY}/img/{callback_data.id}.jpg'), data.get(callback_data.event),
                                         reply_markup=keys.house(id=callback_data.id, event=callback_data.event))
     if callback_data.event == 'booking':
         await state.update_data(house_id=callback_data.id, message=message)
@@ -70,7 +71,7 @@ async def check_day(message: Message, state: FSMContext):
     else:
         text = f'Дата {message.text} занята'
     text += '\nДля проверки другой даты, введите её в том же формате, в противном случае выберите варианты из меню'
-    await state.update_data(message=(await message.answer_photo(FSInputFile(f'./img/{data["house_id"]}.jpg'), text, 
+    await state.update_data(message=(await message.answer_photo(FSInputFile(f'{HOME_DIRECTORY}/img/{data["house_id"]}.jpg'), text, 
                                    reply_markup=keys.house(id=data['house_id'], event='booking'))))
 
 @callbacks_wrapper

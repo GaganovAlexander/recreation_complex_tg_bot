@@ -20,6 +20,7 @@ async def setup_commands(bot: Bot):
     ]
     await bot.set_my_commands(commands)
 
+
 import handlers.admin as admin
 import handlers.client as client
 
