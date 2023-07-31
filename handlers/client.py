@@ -18,7 +18,7 @@ class States(StatesGroup):
 
 async def start_command(message: Message, state: FSMContext):
     await state.clear()
-    await message.answer_photo(FSInputFile(f'{HOME_DIRECTORY}/img/start.jpg'), 'Здравствуйте! Вас приветствует информационый помошник комплекса "Добрый".'+
+    await message.answer_photo(FSInputFile(f'{HOME_DIRECTORY}/img/start.jpg'), 'Здравствуйте! Вас приветствует информационый помощник комплекса "Добрый". '+
                                'Здесь вы можете узнать общую информацию о загородном комплексе и его номерах', reply_markup=keys.start())
 
 @callbacks_wrapper
